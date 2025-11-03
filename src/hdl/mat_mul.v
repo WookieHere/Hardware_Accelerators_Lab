@@ -150,7 +150,7 @@ module bram #
 //data_out[addr] = data_in
 
 //keep in mind, data_width holds 4 numbers, so addr is always 0-3, and data_in/out is an array of 4 ints
-always @ (s00_axi_aclk, s00_axi_aresetn) begin
+always @ (negedge s00_axi_aclk, s00_axi_aresetn) begin
     if (en == 1) begin
         if (rw == 1) begin
             data_out <= data_in;
@@ -158,7 +158,7 @@ always @ (s00_axi_aclk, s00_axi_aresetn) begin
             //simply read data_out[addr]
         end
     end
-    if (s00_axi_aresetn == 1) begin
+    if (s00_axi_aresetn == 0) begin
         //reset all registers
         data_out = DATA_WIDTH-1'b0000000000000000000000000000000;
     end
@@ -190,13 +190,13 @@ integer Temp;
 
 reg [DATA_WIDTH-1 : 0] data_Result;
 
-assign data_A = data_Result; //may need to get indexes/partial data if the matricies are big
+assign data_R = data_Result; //may need to get indexes/partial data if the matricies are big
 
 //NOTE: THIS DOES THE WHOLE MATR! GOING TO BE KINDA LONG AND CALLED ONCE
 
 //falling edge, so this happens after AGU?
-always @ (falling_edge(s00_axi_aclk), s00_axi_aresetn) begin
-    if (s00_axi_aresetn == 1) begin
+always @ (negedge s00_axi_aclk, s00_axi_aresetn) begin
+    if (s00_axi_aresetn == 0) begin
         //reset everything... No registers are present though?
     end else begin
         //do the MAC
@@ -251,7 +251,23 @@ module AGU #
 //TODO
 
 integer State = 0; //start at 0
-
+reg s_tready = 1'b0;
+initial begin
+    State <= 0;
+    s00_axis_tready <= 1'b1; //say we are ready to recieve data
+    m00_axis_tvalid <= 1'b0;
+    m00_axis_tlast <= 1'b0;
+    en_A <= 1'b0;
+    en_B <= 1'b0;
+    en_R <= 1'b0;
+    rw_A <= 1'b0;
+    rw_B <= 1'b0;
+    rw_R <= 1'b0;
+    addr_A <= 0;
+    addr_B <= 0;
+    addr_R <= 0;
+end
+assign s_tready = s00_axis_tready;
 //states:
 /*
 S_IDLE: The idle state. All controlling signals reset to default.
@@ -293,21 +309,21 @@ integer S_OUTPUT = 4;
 // TVALID = 1, TREADY = 0: Stop
 // TVALID = 1, TREADY = 1; Send
 
-always @ (s00_axi_aclk, s00_axi_aresetn) begin
-    if (s00_axi_aresetn == 1) begin
-                State = 0;
-                s00_axis_tready = 1; //say we are ready to recieve data
-                m00_axis_tvalid = 0;
-                m00_axis_tlast = 0;
-                en_A = 0;
-                en_B = 0;
-                en_R = 0;
-                rw_A = 0;
-                rw_B = 0;
-                rw_R = 0;
-                addr_A = 0;
-                addr_B = 0;
-                addr_R = 0;
+always @ (posedge s00_axi_aclk, s00_axi_aresetn) begin
+    if (s00_axi_aresetn == 0) begin
+        State <= 0;
+        s00_axis_tready <= 1'b1; //say we are ready to recieve data
+        m00_axis_tvalid <= 1'b0;
+        m00_axis_tlast <= 1'b0;
+        en_A <= 1'b0;
+        en_B <= 1'b0;
+        en_R <= 1'b0;
+        rw_A <= 1'b0;
+        rw_B <= 1'b0;
+        rw_R <= 1'b0;
+        addr_A <= 0;
+        addr_B <= 0;
+        addr_R <= 0;
     end else begin
         //Cycle AGU
         //set State first?
@@ -323,25 +339,26 @@ always @ (s00_axi_aclk, s00_axi_aresetn) begin
         
         case (State)
             S_IDLE : begin
-                    s00_axis_tready = 1; //say we are ready to recieve data
-                    m00_axis_tvalid = 0;
-                    m00_axis_tlast = 0;
-                    en_A = 0;
-                    en_B = 0;
-                    en_R = 0;
-                    rw_A = 0;
-                    rw_B = 0;
-                    rw_R = 0;
-                    addr_A = 0;
-                    addr_B = 0;
-                    addr_R = 0;
+                    State <= 0;
+                    s00_axis_tready <= 1'b1; //say we are ready to recieve data
+                    m00_axis_tvalid <= 1'b1;
+                    m00_axis_tlast <= 1'b0;
+                    en_A <= 1'b1;
+                    en_B <= 1'b0;
+                    en_R <= 1'b0;
+                    rw_A <= 1'b1;
+                    rw_B <= 1'b0;
+                    rw_R <= 1'b0;
+                    addr_A <= 0;
+                    addr_B <= 0;
+                    addr_R <= 0;
                 end
             S_LOAD_A : begin 
                     if (s00_axis_tvalid == 1) begin
                         en_A = 1;
                         rw_A = 1;
                         //lead values into A
-                        //data is already in the bram... need to encrement addr AFTER bram reads... maybe always block in bram?
+                        //data is already in the bram... need to increment addr AFTER bram reads... maybe always block in bram?
                         if (addr_A >= SIZE_LOG) begin //addr's increment at start of always.
                             addr_A = 0;
                             State = S_LOAD_B;
@@ -350,12 +367,12 @@ always @ (s00_axi_aclk, s00_axi_aresetn) begin
                 end
             S_LOAD_B : begin
                     if (s00_axis_tvalid == 1) begin
-                        en_A = 1;
-                        rw_A = 1;
+                        en_B = 1;
+                        rw_B = 1;
                         //lead values into A
                         //data is already in the bram... need to encrement addr AFTER bram reads... maybe always block in bram?
-                        if (addr_A >= SIZE_LOG) begin //addr's increment at start of always.
-                            addr_A = 0;
+                        if (addr_B >= SIZE_LOG) begin //addr's increment at start of always.
+                            addr_B = 0;
                             State = S_LOAD_B;
                         end
                     end
