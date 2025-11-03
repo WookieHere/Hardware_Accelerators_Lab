@@ -5,11 +5,5 @@ Running: /home/luke/Vivado_Bunker/2025.1/Vivado/bin/unwrapped/lnx64.o/xelab --in
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.mat_mul(DIM_LOG=6)
-Compiling module xil_defaultlib.mat_mul_tb
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot mat_mul_tb_behav
+ERROR: [VRFC 10-2989] 'falling_edge' is not declared [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:198]
+ERROR: [XSIM 43-3322] Static elaboration of top level Verilog design unit(s) in library work failed.

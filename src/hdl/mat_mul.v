@@ -66,9 +66,9 @@ input wire [DATA_WIDTH-1 : 0] data_A,
 input wire [DATA_WIDTH-1 : 0] data_B,
 output wire [DATA_WIDTH-1 : 0] data_R
 */
-wire [DATA_WIDTH-1 : 0] data_A_in;
-wire [DATA_WIDTH-1 : 0] data_B_in;
-wire [DATA_WIDTH-1 : 0] data_R_in;
+//wire [DATA_WIDTH-1 : 0] data_A_in;
+//wire [DATA_WIDTH-1 : 0] data_B_in;
+//wire [DATA_WIDTH-1 : 0] data_R_in;
 wire [DATA_WIDTH-1 : 0] data_A_out;
 wire [DATA_WIDTH-1 : 0] data_B_out;
 wire [DATA_WIDTH-1 : 0] data_R_out;
@@ -98,7 +98,7 @@ bram MatrA (    .s00_axi_aclk (s00_axi_aclk),
                 .en (en_A),
                 .rw (rw_A),
                 .addr (addr_A),
-                .data_in (data_A_in),
+                .data_in (m00_axis_tdata),
                 .data_out (data_A_out)
             );
 bram MatrB (    .s00_axi_aclk (s00_axi_aclk),
@@ -106,7 +106,7 @@ bram MatrB (    .s00_axi_aclk (s00_axi_aclk),
                 .en (en_B),
                 .rw (rw_B),
                 .addr (addr_B),
-                .data_in (data_B_in),
+                .data_in (m00_axis_tdata),
                 .data_out (data_B_out)
             );
 bram MatrR (    .s00_axi_aclk (s00_axi_aclk),
@@ -114,7 +114,7 @@ bram MatrR (    .s00_axi_aclk (s00_axi_aclk),
                 .en (en_R),
                 .rw (rw_R),
                 .addr (addr_R),
-                .data_in (data_R_in),
+                .data_in (m00_axis_tdata),
                 .data_out (data_R_out)
             );
 
@@ -153,14 +153,14 @@ module bram #
 always @ (s00_axi_aclk, s00_axi_aresetn) begin
     if (en == 1) begin
         if (rw == 1) begin
-            //write data_in to data_out
+            data_out <= data_in;
         end else begin
             //simply read data_out[addr]
         end
     end
     if (s00_axi_aresetn == 1) begin
         //reset all registers
-        //data_out = DATA_WIDTH-1'0000000000000000000000000000000;
+        data_out = DATA_WIDTH-1'b0000000000000000000000000000000;
     end
 end
 endmodule
@@ -188,18 +188,24 @@ integer B;
 integer R;
 integer Temp;
 
-assign data_A = A; //may need to get indexes/partial data if the matricies are big
-assign data_B = B;
-assign data_R = R;
-assign data_R = Temp;
+reg [DATA_WIDTH-1 : 0] data_Result;
 
+assign data_A = data_Result; //may need to get indexes/partial data if the matricies are big
 
-always @ (s00_axi_aclk, s00_axi_aresetn) begin
+//NOTE: THIS DOES THE WHOLE MATR! GOING TO BE KINDA LONG AND CALLED ONCE
+
+//falling edge, so this happens after AGU?
+always @ (falling_edge(s00_axi_aclk), s00_axi_aresetn) begin
     if (s00_axi_aresetn == 1) begin
         //reset everything... No registers are present though?
     end else begin
         //do the MAC
         // R = (A * B) + R
+        //for 2x2 arrs: data_A[0] * data_B[1] + data_A[0] * data_B[2] = data_R[0]
+        // to abstract:
+        //              data_R[n] = data_A[row(n)] * data_B[col(n)] + data_A[row(n)+1] * data_B[col(n)+DIM] ...
+        // or just the nested for loop from the lab
+        
         R = (A * B) + Temp;
     end
 end
@@ -289,27 +295,77 @@ integer S_OUTPUT = 4;
 
 always @ (s00_axi_aclk, s00_axi_aresetn) begin
     if (s00_axi_aresetn == 1) begin
-        //reset everything
+                State = 0;
+                s00_axis_tready = 1; //say we are ready to recieve data
+                m00_axis_tvalid = 0;
+                m00_axis_tlast = 0;
+                en_A = 0;
+                en_B = 0;
+                en_R = 0;
+                rw_A = 0;
+                rw_B = 0;
+                rw_R = 0;
+                addr_A = 0;
+                addr_B = 0;
+                addr_R = 0;
     end else begin
         //Cycle AGU
         //set State first?
+        if (State == S_LOAD_A) begin
+            addr_A = addr_A + 1;
+        end
+        if (State == S_LOAD_B) begin
+            addr_B = addr_B + 1;
+        end
+        if (s00_axis_tready == 1 && m00_axis_tvalid == 1 && State == S_IDLE) begin
+            State = S_LOAD_A;
+        end
+        
         case (State)
             S_IDLE : begin
-                s00_axis_tready = 1; //say we are ready to recieve data
+                    s00_axis_tready = 1; //say we are ready to recieve data
+                    m00_axis_tvalid = 0;
+                    m00_axis_tlast = 0;
+                    en_A = 0;
+                    en_B = 0;
+                    en_R = 0;
+                    rw_A = 0;
+                    rw_B = 0;
+                    rw_R = 0;
+                    addr_A = 0;
+                    addr_B = 0;
+                    addr_R = 0;
                 end
             S_LOAD_A : begin 
                     if (s00_axis_tvalid == 1) begin
+                        en_A = 1;
+                        rw_A = 1;
                         //lead values into A
-                        //send data + addr pairs to bram somehow
+                        //data is already in the bram... need to encrement addr AFTER bram reads... maybe always block in bram?
+                        if (addr_A >= SIZE_LOG) begin //addr's increment at start of always.
+                            addr_A = 0;
+                            State = S_LOAD_B;
+                        end
                     end
                 end
             S_LOAD_B : begin
-                    //similar to LOAD_A
+                    if (s00_axis_tvalid == 1) begin
+                        en_A = 1;
+                        rw_A = 1;
+                        //lead values into A
+                        //data is already in the bram... need to encrement addr AFTER bram reads... maybe always block in bram?
+                        if (addr_A >= SIZE_LOG) begin //addr's increment at start of always.
+                            addr_A = 0;
+                            State = S_LOAD_B;
+                        end
+                    end
                 end
             S_CALCULATE : begin
                     //This is where we send things to MAC
                 end
-            S_OUTPUT : //do idle
+            S_OUTPUT : begin
+                
+                end
         endcase
     end
 end
