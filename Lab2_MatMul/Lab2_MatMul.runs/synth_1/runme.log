@@ -1,0 +1,593 @@
+
+*** Running vivado
+    with args -log MatMul_v1_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source MatMul_v1_0.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Tue Nov  4 04:49:15 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source MatMul_v1_0.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+WARNING: [IP_Flow 19-2248] Failed to load user IP repository '/home/luke/Vivado_Bunker/Lab_2/lab2_tcl/lab2/ip_repo/MatMul_1.0'; Can't find the specified path.
+If this directory should no longer be in your list of user repositories, go to the IP Settings dialog and remove it.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/luke/Vivado_Bunker/2025.1/Vivado/data/ip'.
+Command: synth_design -top MatMul_v1_0 -part xc7z020clg484-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 111955
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 1944.434 ; gain = 400.844 ; free physical = 1635 ; free virtual = 7256
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'MatMul_v1_0' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/MatMul_v1_0.v:4]
+INFO: [Synth 8-6157] synthesizing module 'MatMul_v1_0_S00_AXI' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/MatMul_v1_0_S00_AXI.v:4]
+	Parameter C_S_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S_AXI_ADDR_WIDTH bound to: 4 - type: integer 
+INFO: [Synth 8-226] default block is never used [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/MatMul_v1_0_S00_AXI.v:226]
+INFO: [Synth 8-226] default block is never used [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/MatMul_v1_0_S00_AXI.v:369]
+INFO: [Synth 8-6155] done synthesizing module 'MatMul_v1_0_S00_AXI' (0#1) [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/MatMul_v1_0_S00_AXI.v:4]
+INFO: [Synth 8-6157] synthesizing module 'mat_mul' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:12]
+	Parameter DIM_LOG bound to: 1 - type: integer 
+	Parameter DATA_WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'AGU' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:227]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:289]
+WARNING: [Synth 8-567] referenced signal 's00_axis_tvalid' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:285]
+INFO: [Synth 8-6155] done synthesizing module 'AGU' (0#1) [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:227]
+INFO: [Synth 8-6157] synthesizing module 'bram' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:140]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+WARNING: [Synth 8-6090] variable 'data_local' is written by both blocking and non-blocking assignments, entire logic could be removed [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:182]
+INFO: [Common 17-14] Message 'Synth 8-6090' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-567] referenced signal 'en' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:172]
+WARNING: [Synth 8-567] referenced signal 'rw' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:172]
+WARNING: [Synth 8-567] referenced signal 'data_in' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:172]
+WARNING: [Synth 8-567] referenced signal 'addr' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:172]
+INFO: [Synth 8-6155] done synthesizing module 'bram' (0#1) [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:140]
+INFO: [Synth 8-6157] synthesizing module 'MAC' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:189]
+WARNING: [Synth 8-567] referenced signal 'data_A' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:218]
+WARNING: [Synth 8-567] referenced signal 'data_B' should be on the sensitivity list [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:218]
+INFO: [Synth 8-6155] done synthesizing module 'MAC' (0#1) [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:189]
+WARNING: [Synth 8-7071] port 'clear' of module 'MAC' is unconnected for instance 'matr_mac' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:130]
+WARNING: [Synth 8-7023] instance 'matr_mac' of module 'MAC' has 6 connections declared, but only 5 given [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:130]
+INFO: [Synth 8-6155] done synthesizing module 'mat_mul' (0#1) [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:12]
+INFO: [Synth 8-6155] done synthesizing module 'MatMul_v1_0' (0#1) [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/MatMul_v1_0.v:4]
+WARNING: [Synth 8-3848] Net en_R in module/entity AGU does not have driver. [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:254]
+WARNING: [Synth 8-3848] Net rw_R in module/entity AGU does not have driver. [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:257]
+WARNING: [Synth 8-3848] Net m00_axis_tdata in module/entity mat_mul does not have driver. [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:34]
+WARNING: [Synth 8-3848] Net m00_axis_tstrb in module/entity mat_mul does not have driver. [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:35]
+WARNING: [Synth 8-7129] Port s00_axi_aclk in module MAC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_aclk in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[31] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[30] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[29] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[28] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[27] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[26] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[25] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[24] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[23] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[22] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[21] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[20] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[19] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[18] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[17] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[16] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[15] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[14] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[13] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[12] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[11] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[10] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[9] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[8] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[7] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[6] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[5] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[4] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[3] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[2] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port data_in[1] in module bram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port en_R in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rw_R in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_aclk in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tlast in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tready in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sel in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port start in module AGU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tstrb[3] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tstrb[2] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tstrb[1] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tstrb[0] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[31] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[30] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[29] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[28] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[27] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[26] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[25] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[24] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[23] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[22] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[21] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[20] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[19] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[18] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[17] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[16] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[15] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[14] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[13] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[12] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[11] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[10] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[9] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[8] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[7] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[6] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[5] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[4] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[3] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[2] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[1] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[0] in module mat_mul is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_AWPROT[2] in module MatMul_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_AWPROT[1] in module MatMul_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_AWPROT[0] in module MatMul_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_ARPROT[2] in module MatMul_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_ARPROT[1] in module MatMul_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_ARPROT[0] in module MatMul_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_aclk in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_aresetn in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[3] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[2] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[1] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[0] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aclk in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aresetn in module MatMul_v1_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2020.371 ; gain = 476.781 ; free physical = 1537 ; free virtual = 7161
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2038.184 ; gain = 494.594 ; free physical = 1537 ; free virtual = 7162
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2038.184 ; gain = 494.594 ; free physical = 1537 ; free virtual = 7162
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-327] inferring latch for variable 's00_axis_tready_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:293]
+WARNING: [Synth 8-327] inferring latch for variable 'en_A_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:297]
+WARNING: [Synth 8-327] inferring latch for variable 'en_B_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:308]
+WARNING: [Synth 8-327] inferring latch for variable 'addr_A_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:299]
+WARNING: [Synth 8-327] inferring latch for variable 'addr_B_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:310]
+WARNING: [Synth 8-327] inferring latch for variable 'State_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:289]
+WARNING: [Synth 8-327] inferring latch for variable 'data_out_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:177]
+WARNING: [Synth 8-327] inferring latch for variable 'data_local_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:175]
+WARNING: [Synth 8-327] inferring latch for variable 'data_Result_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:222]
+WARNING: [Synth 8-327] inferring latch for variable 'data_Result_reg' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:210]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2047.090 ; gain = 503.500 ; free physical = 1526 ; free virtual = 7153
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 1     
+	   2 Input    2 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 5     
+	                4 Bit    Registers := 2     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 5     
++---Multipliers : 
+	              32x32  Multipliers := 1     
++---Muxes : 
+	   2 Input  125 Bit        Muxes := 3     
+	   2 Input  124 Bit        Muxes := 6     
+	   2 Input   32 Bit        Muxes := 5     
+	   4 Input   32 Bit        Muxes := 5     
+	   2 Input    1 Bit        Muxes := 8     
+	   6 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+DSP Report: Generating DSP accelerator/matr_mac/data_Result_reg1, operation Mode is: A*B.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: Generating DSP accelerator/matr_mac/data_Result_reg1, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: Generating DSP accelerator/matr_mac/data_Result_reg1, operation Mode is: A*B.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: Generating DSP accelerator/matr_mac/data_Result_reg1, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+DSP Report: operator accelerator/matr_mac/data_Result_reg1 is absorbed into DSP accelerator/matr_mac/data_Result_reg1.
+WARNING: [Synth 8-3917] design MatMul_v1_0 has port m00_axis_tvalid driven by constant 0
+WARNING: [Synth 8-3917] design MatMul_v1_0 has port m00_axis_tlast driven by constant 0
+WARNING: [Synth 8-7129] Port m00_axis_tdata[31] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[30] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[29] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[28] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[27] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[26] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[25] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[24] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[23] in module MatMul_v1_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_tdata[22] in module MatMul_v1_0 is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/en_A_reg) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/en_B_reg) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/addr_A_reg[1]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/addr_A_reg[0]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/addr_B_reg[1]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/addr_B_reg[0]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/matr_agu/State_reg[3]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[31]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[30]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[29]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[28]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[27]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[26]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[25]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[24]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[23]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[22]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[21]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[20]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[19]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[18]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[17]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[16]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[15]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[14]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[13]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[12]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[11]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[10]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[9]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[8]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[7]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[6]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[5]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[4]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[3]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[2]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[1]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_out_reg[0]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[124]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[123]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[122]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[121]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[120]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[119]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[118]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[117]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[116]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[115]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[114]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[113]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[112]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[111]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[110]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[109]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[108]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[107]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[106]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[105]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[104]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[103]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[102]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[101]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[100]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[99]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[98]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[97]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[96]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[95]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[94]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[93]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[92]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[91]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[90]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[89]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[88]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[87]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[86]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[85]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[84]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[83]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[82]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[81]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[80]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[79]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[78]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[77]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[76]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[75]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[74]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[73]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[72]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[71]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[70]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[69]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[68]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[67]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[66]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[65]) is unused and will be removed from module MatMul_v1_0.
+WARNING: [Synth 8-3332] Sequential element (accelerator/MatrA/data_local_reg[64]) is unused and will be removed from module MatMul_v1_0.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2198.027 ; gain = 654.438 ; free physical = 1397 ; free virtual = 7057
+---------------------------------------------------------------------------------
+ Sort Area is  accelerator/matr_mac/data_Result_reg1_0 : 0 0 : 3101 5879 : Used 1 time 0
+ Sort Area is  accelerator/matr_mac/data_Result_reg1_0 : 0 1 : 2778 5879 : Used 1 time 0
+ Sort Area is  accelerator/matr_mac/data_Result_reg1_3 : 0 0 : 2759 5418 : Used 1 time 0
+ Sort Area is  accelerator/matr_mac/data_Result_reg1_3 : 0 1 : 2659 5418 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping    | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|MatMul_v1_0 | A*B            | 18     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|MatMul_v1_0 | (PCIN>>17)+A*B | 16     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|MatMul_v1_0 | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|MatMul_v1_0 | (PCIN>>17)+A*B | 18     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2203.965 ; gain = 660.375 ; free physical = 1389 ; free virtual = 7050
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2203.965 ; gain = 660.375 ; free physical = 1389 ; free virtual = 7050
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------+------+
+|      |Cell  |Count |
++------+------+------+
+|1     |BUFG  |     1|
+|2     |LUT1  |     1|
+|3     |LUT2  |     1|
+|4     |LUT3  |     4|
+|5     |LUT4  |    18|
+|6     |LUT6  |    34|
+|7     |FDRE  |   169|
+|8     |LD    |     2|
+|9     |IBUF  |    48|
+|10    |OBUF  |    45|
+|11    |OBUFT |    35|
++------+------+------+
+
+Report Instance Areas: 
++------+---------------------------+--------------------+------+
+|      |Instance                   |Module              |Cells |
++------+---------------------------+--------------------+------+
+|1     |top                        |                    |   358|
+|2     |  MatMul_v1_0_S00_AXI_inst |MatMul_v1_0_S00_AXI |   226|
+|3     |  accelerator              |mat_mul             |     3|
+|4     |    matr_agu               |AGU                 |     3|
++------+---------------------------+--------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 865 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.777 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+Synthesis Optimization Complete : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2372.785 ; gain = 829.188 ; free physical = 1247 ; free virtual = 6908
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2387.652 ; gain = 0.000 ; free physical = 1311 ; free virtual = 6972
+INFO: [Netlist 29-17] Analyzing 2 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2499.422 ; gain = 0.000 ; free physical = 1228 ; free virtual = 6904
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 2 instances were transformed.
+  LD => LDCE: 2 instances
+
+Synth Design complete | Checksum: 740b07b1
+INFO: [Common 17-83] Releasing license: Synthesis
+32 Infos, 327 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:09 ; elapsed = 00:00:08 . Memory (MB): peak = 2499.457 ; gain = 955.867 ; free physical = 1228 ; free virtual = 6903
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1707.721; main = 1707.721; forked = 0.000
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 2499.426; main = 2499.426; forked = 0.000
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2523.434 ; gain = 0.000 ; free physical = 1228 ; free virtual = 6903
+INFO: [Common 17-1381] The checkpoint '/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/Lab2_MatMul/Lab2_MatMul.runs/synth_1/MatMul_v1_0.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file MatMul_v1_0_utilization_synth.rpt -pb MatMul_v1_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Nov  4 04:49:25 2025...

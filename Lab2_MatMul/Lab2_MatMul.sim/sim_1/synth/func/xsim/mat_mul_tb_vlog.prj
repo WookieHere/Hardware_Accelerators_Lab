@@ -1,0 +1,8 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../../../../../2025.1/data/rsb/busdef" \
+"mat_mul_tb_func_synth.v" \
+"../../../../../../src/hdl/mat_mul.v" \
+"../../../../../../src/hdl/mat_mul_tb.v" \
+
+# Do not sort compile order
+nosort

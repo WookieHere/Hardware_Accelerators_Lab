@@ -42,16 +42,8 @@ module mat_mul #
     );
 
 //TODO
-/*    output reg en_A,
-    output reg en_B,
-    output reg en_R,
-    output reg rw_A,
-    output reg rw_B,
-    output reg rw_R,
-    output reg [SIZE_LOG-1 : 0] addr_A,
-    output reg [SIZE_LOG-1 : 0] addr_B,
-    output reg [SIZE_LOG-1 : 0] addr_R
-    */
+
+
 wire en_A;
 wire en_B;
 wire en_R;
@@ -72,13 +64,28 @@ output wire [DATA_WIDTH-1 : 0] data_R
 wire [DATA_WIDTH-1 : 0] data_A_out;
 wire [DATA_WIDTH-1 : 0] data_B_out;
 wire [DATA_WIDTH-1 : 0] data_R_out;
+wire [DATA_WIDTH-1 : 0] data_R_mac;
 
+//reg s_tready;
+//reg m_axis_tvalid;
+//reg  [DATA_WIDTH-1 : 0] m_axis_tdata;
+/*
+initial begin
+    s_tready <= 1'b0;
+    m_axis_tvalid <= 1'b0;
+end
 
+assign s00_axis_tready = s_tready;
+assign m00_axis_tvalid = m_axis_tvalid;
+*/
 
 AGU matr_agu (  .s00_axi_aclk (s00_axi_aclk),
                 .s00_axi_aresetn (s00_axi_aresetn),
+                .s00_axis_tready (s00_axis_tready),
                 .s00_axis_tlast (s00_axis_tlast),
-                .s00_axis_tvalid (s00_axis_tlast),
+                .s00_axis_tvalid (s00_axis_tvalid),
+                .m00_axis_tvalid (m00_axis_tvalid),
+                .m00_axis_tlast (m00_axis_tlast),
                 .m00_axis_tready (m00_axis_tready),
                 .sel (sel),
                 .start (start),
@@ -91,7 +98,7 @@ AGU matr_agu (  .s00_axi_aclk (s00_axi_aclk),
                 .addr_A (addr_A),
                 .addr_B (addr_B),
                 .addr_R (addr_R)
-            ); //none of the outputs are mapped yet...
+            );
 
 bram MatrA (    .s00_axi_aclk (s00_axi_aclk),
                 .s00_axi_aresetn (s00_axi_aresetn),
@@ -114,14 +121,17 @@ bram MatrR (    .s00_axi_aclk (s00_axi_aclk),
                 .en (en_R),
                 .rw (rw_R),
                 .addr (addr_R),
-                .data_in (m00_axis_tdata),
+                .data_in (data_R_mac),
                 .data_out (data_R_out)
             );
 
 
 
 MAC matr_mac (  .s00_axi_aclk (s00_axi_aclk),
-                .s00_axi_aresetn (s00_axi_aresetn)
+                .s00_axi_aresetn (s00_axi_aresetn),
+                .data_A (data_A_out),
+                .data_B (data_B_out),
+                .data_R (data_R_mac)
              ); //missing connections where the data comes in
 
 
@@ -148,18 +158,29 @@ module bram #
 //TODO
 //I would think I'd need one of these for each matr?
 //data_out[addr] = data_in
+reg [(DATA_WIDTH-1) * SIZE: 0] data_local;
+integer i;
+initial begin
+    data_out = DATA_WIDTH-1'b0000000000000000000000000000000;
+    for (i = 0; i < (DATA_WIDTH-1) * SIZE; i = i + 1) begin
+      data_local[i] <= 1'b0;    //initialize local data to 0
+    end
+end
+
 
 //keep in mind, data_width holds 4 numbers, so addr is always 0-3, and data_in/out is an array of 4 ints
-always @ (negedge s00_axi_aclk, s00_axi_aresetn) begin
+always @ (s00_axi_aclk, s00_axi_aresetn) begin
     if (en == 1) begin
         if (rw == 1) begin
-            data_out <= data_in;
+            data_local[addr] = data_in;
         end else begin
-            //simply read data_out[addr]
+            data_out = data_local[addr];
         end
     end
     if (s00_axi_aresetn == 0) begin
-        //reset all registers
+        for (i = 0; i < (DATA_WIDTH-1) * SIZE; i = i + 1) begin
+          data_local[i] <= 1'b0;    //initialize local data to 0
+        end
         data_out = DATA_WIDTH-1'b0000000000000000000000000000000;
     end
 end
@@ -176,40 +197,31 @@ module MAC #
 (
     input wire s00_axi_aclk,
     input wire s00_axi_aresetn,
-    input wire clear, 
+    input wire clear, //not used I think
     input wire [DATA_WIDTH-1 : 0] data_A,
     input wire [DATA_WIDTH-1 : 0] data_B,
     output wire [DATA_WIDTH-1 : 0] data_R
 );
 
-//TODO
-integer A;
-integer B;
-integer R;
-integer Temp;
-
 reg [DATA_WIDTH-1 : 0] data_Result;
+initial begin
+    data_Result = DATA_WIDTH-1'b0000000000000000000000000000000;
+end
+assign data_R = data_Result;
 
-assign data_R = data_Result; //may need to get indexes/partial data if the matricies are big
-
-//NOTE: THIS DOES THE WHOLE MATR! GOING TO BE KINDA LONG AND CALLED ONCE
-
-//falling edge, so this happens after AGU?
-always @ (negedge s00_axi_aclk, s00_axi_aresetn) begin
-    if (s00_axi_aresetn == 0) begin
-        //reset everything... No registers are present though?
-    end else begin
-        //do the MAC
-        // R = (A * B) + R
-        //for 2x2 arrs: data_A[0] * data_B[1] + data_A[0] * data_B[2] = data_R[0]
-        // to abstract:
-        //              data_R[n] = data_A[row(n)] * data_B[col(n)] + data_A[row(n)+1] * data_B[col(n)+DIM] ...
-        // or just the nested for loop from the lab
-        
-        R = (A * B) + Temp;
+always @ (clear) begin
+    if (clear == 1'b1) begin
+        data_Result = DATA_WIDTH-1'b0000000000000000000000000000000;
     end
 end
 
+always @ (s00_axi_aclk, s00_axi_aresetn) begin
+    if (s00_axi_aresetn == 1'b0) begin
+        //reset all registers... none are here though
+    end else begin
+        data_Result = (data_A * data_B) + data_Result;
+    end
+end
 endmodule
 
 module AGU #
@@ -250,48 +262,19 @@ module AGU #
 
 //TODO
 
-integer State = 0; //start at 0
-reg s_tready = 1'b0;
+integer State; //start at 0
+integer i;
 initial begin
     State <= 0;
-    s00_axis_tready <= 1'b1; //say we are ready to recieve data
     m00_axis_tvalid <= 1'b0;
     m00_axis_tlast <= 1'b0;
-    en_A <= 1'b0;
-    en_B <= 1'b0;
-    en_R <= 1'b0;
-    rw_A <= 1'b0;
-    rw_B <= 1'b0;
-    rw_R <= 1'b0;
-    addr_A <= 0;
-    addr_B <= 0;
-    addr_R <= 0;
+    s00_axis_tready <= 1'b0;
+    for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
+      addr_A[i] <= 1'b0;
+      addr_B[i] <= 1'b0;
+      addr_R[i] <= 1'b0;
+    end
 end
-assign s_tready = s00_axis_tready;
-//states:
-/*
-S_IDLE: The idle state. All controlling signals reset to default.
-
-S_LOAD_A: Load matrix A from the AXI stream bus. This state should
-    generate controlling signals for the AXI stream slave interface in Figure 2 as
-    well as addresses for matA during matrix loading.
-        Why should we generate address on the slave-side when loading
-        matries using AXI-stream interface?
-
-S_LOAD_B: Load matrix B from the AXI stream bus. Again, this state should
-    generate controlling signals for the AXI stream slave interface in Figure 2 as
-    well as address for matB during matrix loading.
-        The AXI-stream is a streaming bus. In order to fully use that property,
-        what kind of addresses should you generate in state S_LOAD_A and
-        S_LOAD_B?
-S_CALCULATE: Launch matrix calculation. Read all operands loaded in matA
-    and matB and write results to matR.
-        What kind of addresses should you generate in S_CALCULATE?
-S_OUTPUT: Output matR to the AXI stream master interface in Figure 2 after
-    the whole matrix multiplication is done.
-        Why should we output matR only after the whole matrix multiplication
-        is done? Why should not we output partial results in matR on the fly
-*/
 
 integer S_IDLE = 0;
 integer S_LOAD_A = 1;
@@ -299,82 +282,38 @@ integer S_LOAD_B = 2;
 integer S_CALCULATE = 3;
 integer S_OUTPUT = 4;
 
-//AXI slave states:
-// TREADY = 0: Busy
-// TREADY = 1, TVALID = 0: Stop
-// TREADY = 1, TVALID = 1; Recieve
-
-//AXI master states:
-// TVALID = 0: Waiting Data
-// TVALID = 1, TREADY = 0: Stop
-// TVALID = 1, TREADY = 1; Send
-
-always @ (posedge s00_axi_aclk, s00_axi_aresetn) begin
+always @ (s00_axi_aclk, s00_axi_aresetn) begin
     if (s00_axi_aresetn == 0) begin
-        State <= 0;
-        s00_axis_tready <= 1'b1; //say we are ready to recieve data
-        m00_axis_tvalid <= 1'b0;
-        m00_axis_tlast <= 1'b0;
-        en_A <= 1'b0;
-        en_B <= 1'b0;
-        en_R <= 1'b0;
-        rw_A <= 1'b0;
-        rw_B <= 1'b0;
-        rw_R <= 1'b0;
-        addr_A <= 0;
-        addr_B <= 0;
-        addr_R <= 0;
-    end else begin
-        //Cycle AGU
-        //set State first?
-        if (State == S_LOAD_A) begin
-            addr_A = addr_A + 1;
-        end
-        if (State == S_LOAD_B) begin
-            addr_B = addr_B + 1;
-        end
-        if (s00_axis_tready == 1 && m00_axis_tvalid == 1 && State == S_IDLE) begin
-            State = S_LOAD_A;
-        end
-        
+        //reset all
+    end else begin       
         case (State)
             S_IDLE : begin
-                    State <= 0;
-                    s00_axis_tready <= 1'b1; //say we are ready to recieve data
-                    m00_axis_tvalid <= 1'b1;
-                    m00_axis_tlast <= 1'b0;
-                    en_A <= 1'b1;
-                    en_B <= 1'b0;
-                    en_R <= 1'b0;
-                    rw_A <= 1'b1;
-                    rw_B <= 1'b0;
-                    rw_R <= 1'b0;
-                    addr_A <= 0;
-                    addr_B <= 0;
-                    addr_R <= 0;
+                    if (s00_axis_tvalid == 1'b1) begin
+                        State = S_LOAD_A;
+                        s00_axis_tready = 1'b1; //start teh AXI stream of data
+                    end
                 end
             S_LOAD_A : begin 
-                    if (s00_axis_tvalid == 1) begin
-                        en_A = 1;
-                        rw_A = 1;
-                        //lead values into A
-                        //data is already in the bram... need to increment addr AFTER bram reads... maybe always block in bram?
-                        if (addr_A >= SIZE_LOG) begin //addr's increment at start of always.
-                            addr_A = 0;
-                            State = S_LOAD_B;
+                    en_A = 1'b1;
+                    rw_A = 1'b1;
+                    addr_A = addr_A + 1;
+                    if (addr_A >= SIZE) begin
+                        for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
+                          addr_A[i] <= 1'b0;
                         end
+                        State = S_LOAD_B;
                     end
                 end
             S_LOAD_B : begin
-                    if (s00_axis_tvalid == 1) begin
-                        en_B = 1;
-                        rw_B = 1;
-                        //lead values into A
-                        //data is already in the bram... need to encrement addr AFTER bram reads... maybe always block in bram?
-                        if (addr_B >= SIZE_LOG) begin //addr's increment at start of always.
-                            addr_B = 0;
-                            State = S_LOAD_B;
+                    en_B = 1'b1;
+                    rw_B = 1'b1;
+                    addr_B = addr_B + 1;
+                    if (addr_B >= SIZE) begin
+                        for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
+                          addr_B[i] <= 1'b0;
                         end
+                        State = S_CALCULATE;
+                        s00_axis_tready = 1'b0; //stop the stream
                     end
                 end
             S_CALCULATE : begin

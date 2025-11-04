@@ -1,0 +1,7 @@
+0.7
+2020.2
+May 21 2025
+22:59:56
+/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/Lab2_MatMul/Lab2_MatMul.sim/sim_1/synth/func/xsim/mat_mul_tb_func_synth.v,1762228233,verilog,,/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v,,MatMul_v1_0;MatMul_v1_0_S00_AXI;glbl,,,../../../../../../../../2025.1/data/rsb/busdef,,,,,
+/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v,1762228016,verilog,,/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul_tb.v,,AGU;MAC;bram;mat_mul,,,../../../../../../../../2025.1/data/rsb/busdef,,,,,
+/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul_tb.v,1664143943,verilog,,,,mat_mul_tb,,,../../../../../../../../2025.1/data/rsb/busdef,,,,,

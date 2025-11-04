@@ -3,5 +3,5 @@ INFO: [VRFC 10-311] analyzing module mat_mul
 INFO: [VRFC 10-311] analyzing module bram
 INFO: [VRFC 10-311] analyzing module MAC
 INFO: [VRFC 10-311] analyzing module AGU
-ERROR: [VRFC 10-3236] concurrent assignment to a non-net 's_tready' is not permitted [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:270]
-ERROR: [VRFC 10-8530] module 'AGU' is ignored due to previous errors [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:215]
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mat_mul_tb

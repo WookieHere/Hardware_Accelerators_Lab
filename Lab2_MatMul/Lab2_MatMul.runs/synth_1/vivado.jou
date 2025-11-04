@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue Nov  4 04:49:15 2025
+# Process ID         : 111918
+# Current directory  : /home/luke/Vivado_Bunker/Lab_2/Lab2_handout/Lab2_MatMul/Lab2_MatMul.runs/synth_1
+# Command line       : vivado -log MatMul_v1_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source MatMul_v1_0.tcl
+# Log file           : /home/luke/Vivado_Bunker/Lab_2/Lab2_handout/Lab2_MatMul/Lab2_MatMul.runs/synth_1/MatMul_v1_0.vds
+# Journal file       : /home/luke/Vivado_Bunker/Lab_2/Lab2_handout/Lab2_MatMul/Lab2_MatMul.runs/synth_1/vivado.jou
+# Running On         : luke-MS-7E57
+# Platform           : Linuxmint
+# Operating System   : Linux Mint 22.1
+# Processor Detail   : AMD Ryzen 5 9600 6-Core Processor
+# CPU Frequency      : 4206.215 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 15766 MB
+# Swap memory        : 2147 MB
+# Total Virtual      : 17913 MB
+# Available Virtual  : 8806 MB
+#-----------------------------------------------------------
+source MatMul_v1_0.tcl -notrace
