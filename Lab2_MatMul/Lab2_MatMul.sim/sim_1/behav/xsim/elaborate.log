@@ -11,7 +11,14 @@ WARNING: [VRFC 10-3091] actual bit length 12 differs from formal bit length 2 fo
 WARNING: [VRFC 10-3091] actual bit length 12 differs from formal bit length 2 for port 'addr' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:107]
 WARNING: [VRFC 10-3091] actual bit length 12 differs from formal bit length 2 for port 'addr' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:115]
 WARNING: [VRFC 10-3091] actual bit length 12 differs from formal bit length 2 for port 'addr' [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:123]
-ERROR: [VRFC 10-3236] concurrent assignment to a non-net 'addr_A' is not permitted [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:98]
-ERROR: [VRFC 10-3236] concurrent assignment to a non-net 'addr_B' is not permitted [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:99]
-ERROR: [VRFC 10-3236] concurrent assignment to a non-net 'addr_R' is not permitted [/home/luke/Vivado_Bunker/Lab_2/Lab2_handout/src/hdl/mat_mul.v:100]
-ERROR: [XSIM 43-3322] Static elaboration of top level Verilog design unit(s) in library work failed.
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.AGU_default
+Compiling module xil_defaultlib.bram_default
+Compiling module xil_defaultlib.MAC_default
+Compiling module xil_defaultlib.mat_mul(DIM_LOG=6)
+Compiling module xil_defaultlib.mat_mul_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot mat_mul_tb_behav

@@ -205,18 +205,18 @@ module MAC #
 
 reg [DATA_WIDTH-1 : 0] data_Result;
 initial begin
-    data_Result = DATA_WIDTH-1'b0000000000000000000000000000000;
+    data_Result = 0;
 end
 assign data_R = data_Result;
 
 always @ (clear) begin
     if (clear == 1'b1) begin
-        data_Result = DATA_WIDTH-1'b0000000000000000000000000000000;
+        data_Result = 0;
     end
 end
 
 //always @ (s00_axi_aclk, s00_axi_aresetn, data_A, data_B) begin
-always @ (s00_axi_aclk, s00_axi_aresetn) begin
+always @ (s00_axi_aclk, s00_axi_aresetn, data_A, data_B) begin
     if (s00_axi_aresetn == 1'b0) begin
         //reset all registers... none are here though
     end else begin
@@ -400,7 +400,12 @@ always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
                     counter = 0;
                 end
             S_OUTPUT : begin
-                    
+                    en_A = 1'b0;
+                    rw_A = 1'b0;
+                    en_B = 1'b0;
+                    rw_B = 1'b0;
+                    en_R = 1'b1;
+                    rw_R = 1'b0;
                     /*
                     for (counter = 0; counter < SIZE; counter = counter + 1) begin
                         addr_R = counter;
