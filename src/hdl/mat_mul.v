@@ -264,8 +264,10 @@ module AGU #
 
 integer State; //start at 0
 integer i;
+integer counter;
 initial begin
     State <= 0;
+    counter <= 0;
     m00_axis_tvalid <= 1'b0;
     m00_axis_tlast <= 1'b0;
     s00_axis_tready <= 1'b0;
@@ -282,6 +284,8 @@ integer S_LOAD_B = 2;
 integer S_CALCULATE = 3;
 integer S_OUTPUT = 4;
 
+
+
 always @ (s00_axi_aclk, s00_axi_aresetn) begin
     if (s00_axi_aresetn == 0) begin
         //reset all
@@ -296,31 +300,48 @@ always @ (s00_axi_aclk, s00_axi_aresetn) begin
             S_LOAD_A : begin 
                     en_A = 1'b1;
                     rw_A = 1'b1;
-                    addr_A = addr_A + 1;
-                    if (addr_A >= SIZE) begin
-                        for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
-                          addr_A[i] <= 1'b0;
-                        end
+                    addr_A = addr_A + 1;    //This doesn't work... not sure why
+                    if (counter > SIZE) begin
                         State = S_LOAD_B;
+                        en_A = 1'b0;
+                        rw_A = 1'b0;
+                        counter = 0;
+                        for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
+                          addr_A[i] = 1'b0;
+                        end
+                    end else begin
+                        counter = counter + 1;
                     end
                 end
             S_LOAD_B : begin
                     en_B = 1'b1;
                     rw_B = 1'b1;
-                    addr_B = addr_B + 1;
-                    if (addr_B >= SIZE) begin
+                    addr_B = addr_B + 1;    //This doesn't work... not sure why MUST FIX
+                    if (counter > SIZE) begin
+                        State = S_CALCULATE;
+                        en_B = 1'b0;
+                        rw_B = 1'b0;
+                        counter = 0;
                         for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
                           addr_B[i] <= 1'b0;
                         end
-                        State = S_CALCULATE;
                         s00_axis_tready = 1'b0; //stop the stream
+                    end else begin
+                        counter = counter + 1;
                     end
                 end
             S_CALCULATE : begin
                     //This is where we send things to MAC
+                    //enable A, B, R
+                    //send addresses to A and B. MAC should trigger combinationally to do R = AB+R
+                    //  this will use the for loop from the lab paper to generate addresses
+                    //set state to S_OUTPUT once this is done
                 end
             S_OUTPUT : begin
-                
+                    //start sending the output to master
+                    //  may have to handshake (set master valid, and wait for ready, or something similar)
+                    //enable R, disable other brams
+                    //increment addr_R, the bram for R should already be routed to master input.
                 end
         endcase
     end

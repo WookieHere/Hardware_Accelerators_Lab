@@ -2,3 +2,6 @@ Running: xsim.dir/mat_mul_tb_func_synth/xsimk -simmode gui -wdb mat_mul_tb_func_
 Design successfully loaded
 Design Loading Memory Usage: 182108 KB (Peak: 182108 KB)
 Design Loading CPU Usage: 500 ms
+Simulation completed
+Simulation Memory Usage: 268204 KB (Peak: 321376 KB)
+Simulation CPU Usage: 610 ms
