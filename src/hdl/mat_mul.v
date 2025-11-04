@@ -105,7 +105,7 @@ bram MatrA (    .s00_axi_aclk (s00_axi_aclk),
                 .en (en_A),
                 .rw (rw_A),
                 .addr (addr_A),
-                .data_in (m00_axis_tdata),
+                .data_in (s00_axis_tdata),
                 .data_out (data_A_out)
             );
 bram MatrB (    .s00_axi_aclk (s00_axi_aclk),
@@ -113,7 +113,7 @@ bram MatrB (    .s00_axi_aclk (s00_axi_aclk),
                 .en (en_B),
                 .rw (rw_B),
                 .addr (addr_B),
-                .data_in (m00_axis_tdata),
+                .data_in (s00_axis_tdata),
                 .data_out (data_B_out)
             );
 bram MatrR (    .s00_axi_aclk (s00_axi_aclk),
@@ -122,7 +122,7 @@ bram MatrR (    .s00_axi_aclk (s00_axi_aclk),
                 .rw (rw_R),
                 .addr (addr_R),
                 .data_in (data_R_mac),
-                .data_out (data_R_out)
+                .data_out (m00_axis_tdata)
             );
 
 
@@ -169,12 +169,12 @@ end
 
 
 //keep in mind, data_width holds 4 numbers, so addr is always 0-3, and data_in/out is an array of 4 ints
-always @ (s00_axi_aclk, s00_axi_aresetn) begin
+always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
     if (en == 1) begin
         if (rw == 1) begin
-            data_local[addr] = data_in;
+            data_local[addr * (DATA_WIDTH / SIZE)] = data_in;
         end else begin
-            data_out = data_local[addr];
+            data_out = data_local[addr * (DATA_WIDTH / SIZE)];
         end
     end
     if (s00_axi_aresetn == 0) begin
@@ -215,6 +215,7 @@ always @ (clear) begin
     end
 end
 
+//always @ (s00_axi_aclk, s00_axi_aresetn, data_A, data_B) begin
 always @ (s00_axi_aclk, s00_axi_aresetn) begin
     if (s00_axi_aresetn == 1'b0) begin
         //reset all registers... none are here though
@@ -265,17 +266,28 @@ module AGU #
 integer State; //start at 0
 integer i;
 integer counter;
+integer row;
+integer col;
+integer data_read;
 initial begin
     State <= 0;
     counter <= 0;
+    row <= 0;
+    col <= 0;
+    data_read <= 0;
     m00_axis_tvalid <= 1'b0;
     m00_axis_tlast <= 1'b0;
     s00_axis_tready <= 1'b0;
+    /*
     for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
       addr_A[i] <= 1'b0;
       addr_B[i] <= 1'b0;
       addr_R[i] <= 1'b0;
     end
+    */
+    addr_A = 0;
+    addr_B = 0;
+    addr_R = 0;
 end
 
 integer S_IDLE = 0;
@@ -286,7 +298,7 @@ integer S_OUTPUT = 4;
 
 
 
-always @ (s00_axi_aclk, s00_axi_aresetn) begin
+always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
     if (s00_axi_aresetn == 0) begin
         //reset all
     end else begin       
@@ -298,50 +310,126 @@ always @ (s00_axi_aclk, s00_axi_aresetn) begin
                     end
                 end
             S_LOAD_A : begin 
+                    /*
+                    if (data_read == 0) begin
+                        s00_axis_tready = 1'b1; //start teh AXI stream of data
+                        data_read = 1;
+                    end else begin
+                        s00_axis_tready = 1'b0; //start teh AXI stream of data
+                    end
+                    if (s00_axis_tvalid == 1'b0) begin
+                        data_read = 0;
+                    end
+                    */
                     en_A = 1'b1;
                     rw_A = 1'b1;
-                    addr_A = addr_A + 1;    //This doesn't work... not sure why
+                    
                     if (counter > SIZE) begin
                         State = S_LOAD_B;
                         en_A = 1'b0;
                         rw_A = 1'b0;
                         counter = 0;
-                        for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
-                          addr_A[i] = 1'b0;
-                        end
+                        addr_A = 0;
                     end else begin
+                        addr_A = addr_A + 1;
                         counter = counter + 1;
+                        if (counter >= SIZE) begin
+                            State = S_LOAD_B;
+                            en_A = 1'b0;
+                            rw_A = 1'b0;
+                            counter = 0;
+                            addr_A = 0;
+                        end
                     end
                 end
             S_LOAD_B : begin
                     en_B = 1'b1;
                     rw_B = 1'b1;
-                    addr_B = addr_B + 1;    //This doesn't work... not sure why MUST FIX
+                    
+                    if (counter == SIZE - 1) begin
+                       //tlast goes here 
+                    end
                     if (counter > SIZE) begin
                         State = S_CALCULATE;
                         en_B = 1'b0;
                         rw_B = 1'b0;
                         counter = 0;
-                        for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
-                          addr_B[i] <= 1'b0;
-                        end
+                        addr_B = 0;
                         s00_axis_tready = 1'b0; //stop the stream
                     end else begin
+                        addr_B = addr_B + 1;
                         counter = counter + 1;
+                        if (counter >= SIZE) begin
+                            State = S_CALCULATE;
+                            en_B = 1'b0;
+                            rw_B = 1'b0;
+                            counter = 0;
+                            addr_B = 0;
+                            s00_axis_tready = 1'b0; //stop the stream
+                        end
                     end
                 end
             S_CALCULATE : begin
+                    en_A = 1'b1;
+                    rw_A = 1'b0;
+                    en_B = 1'b1;
+                    rw_B = 1'b0;
+                    en_R = 1'b1;
+                    rw_R = 1'b1;
                     //This is where we send things to MAC
                     //enable A, B, R
                     //send addresses to A and B. MAC should trigger combinationally to do R = AB+R
                     //  this will use the for loop from the lab paper to generate addresses
                     //set state to S_OUTPUT once this is done
+                    
+                    for (row = 0; row < DIM; row = row + 1) begin
+                        for(col = 0; col < DIM; col = col + 1) begin
+                            //clear = 1'b1;
+                            //matR[r][c] = 0;. use clear? Wish it was an output signal. Might not need it though
+                            for(counter = 0; counter < DIM; counter = counter + 1) begin
+                                //matR[row][col] = matA[row][tmp] * matB[tmp][col] + matR[row][col]
+                                addr_A = (row * DIM) + counter;
+                                addr_B = (counter * DIM) + col;
+                                addr_R = (row * DIM) + col;
+                                if (row == DIM-1 && col == DIM-1 && counter == DIM-1) begin
+                                    State = S_OUTPUT;
+                                end
+                            end
+                        end
+                    end
+                    counter = 0;
                 end
             S_OUTPUT : begin
+                    
+                    /*
+                    for (counter = 0; counter < SIZE; counter = counter + 1) begin
+                        addr_R = counter;
+                        if (counter == SIZE-2) begin
+                            m00_axis_tlast = 1'b1;
+                        end
+                    end
+                    */
+                    if (counter < SIZE) begin
+                        m00_axis_tvalid = 1'b1;
+                        addr_R = counter;
+                        if (counter == SIZE-1) begin
+                            m00_axis_tlast = 1'b1;
+                        end
+                        counter = counter + 1;
+                    end else begin
+                        m00_axis_tlast = 1'b0;
+                        m00_axis_tvalid = 1'b0;
+                    end
                     //start sending the output to master
                     //  may have to handshake (set master valid, and wait for ready, or something similar)
                     //enable R, disable other brams
                     //increment addr_R, the bram for R should already be routed to master input.
+                end
+            default : begin
+                    s00_axis_tready = 1'b0;
+                    m00_axis_tlast = 1'b0;
+                    m00_axis_tvalid = 1'b0;
+                    //done
                 end
         endcase
     end
