@@ -213,9 +213,10 @@ module MAC #
 
 reg [DATA_WIDTH-1 : 0] data_Result;
 initial begin
+    assign data_R = data_Result;
     data_Result = 0;
 end
-assign data_R = data_Result;
+
 
 /*
 always @ (clear) begin
@@ -229,7 +230,7 @@ always @ (s00_axi_aresetn, data_A, data_B, clear) begin
     if (s00_axi_aresetn == 1'b0 || clear == 1'b1) begin
         data_Result = 0;
     end else begin
-        data_Result = (data_A * data_B) + data_Result;
+        data_Result <= (data_A * data_B) + data_Result;
     end
 end
 endmodule
