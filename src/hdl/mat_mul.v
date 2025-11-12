@@ -158,30 +158,38 @@ module bram #
 //TODO
 //I would think I'd need one of these for each matr?
 //data_out[addr] = data_in
-reg [(DATA_WIDTH-1) * SIZE: 0] data_local;
+//reg [(DATA_WIDTH-1) * SIZE: 0] data_local;
+reg [DATA_WIDTH-1 : 0] data_local[SIZE-1 : 0];
 integer i;
+integer offset;
 initial begin
-    data_out = DATA_WIDTH-1'b0000000000000000000000000000000;
+    data_out = 0;
+    offset = 0;
+    for (i = 0; i < SIZE; i = i + 1) begin
+      data_local[i] <= 0;    //initialize local data to 0
+    end
+    /*
     for (i = 0; i < (DATA_WIDTH-1) * SIZE; i = i + 1) begin
       data_local[i] <= 1'b0;    //initialize local data to 0
     end
+    */
 end
 
 
 //keep in mind, data_width holds 4 numbers, so addr is always 0-3, and data_in/out is an array of 4 ints
-always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
+always @ (s00_axi_aresetn, data_in, addr, en, rw) begin
     if (en == 1) begin
         if (rw == 1) begin
-            data_local[addr * (DATA_WIDTH / SIZE)] = data_in;
+            data_local[addr] = data_in;
         end else begin
-            data_out = data_local[addr * (DATA_WIDTH / SIZE)];
+            data_out = data_local[addr];
         end
     end
     if (s00_axi_aresetn == 0) begin
-        for (i = 0; i < (DATA_WIDTH-1) * SIZE; i = i + 1) begin
-          data_local[i] <= 1'b0;    //initialize local data to 0
+        for (i = 0; i < SIZE; i = i + 1) begin
+          data_local[i] <= 0;    //initialize local data to 0
         end
-        data_out = DATA_WIDTH-1'b0000000000000000000000000000000;
+        data_out = 0;
     end
 end
 endmodule
@@ -209,16 +217,17 @@ initial begin
 end
 assign data_R = data_Result;
 
+/*
 always @ (clear) begin
     if (clear == 1'b1) begin
         data_Result = 0;
     end
 end
-
+*/
 //always @ (s00_axi_aclk, s00_axi_aresetn, data_A, data_B) begin
-always @ (s00_axi_aclk, s00_axi_aresetn, data_A, data_B) begin
-    if (s00_axi_aresetn == 1'b0) begin
-        //reset all registers... none are here though
+always @ (s00_axi_aresetn, data_A, data_B, clear) begin
+    if (s00_axi_aresetn == 1'b0 || clear == 1'b1) begin
+        data_Result = 0;
     end else begin
         data_Result = (data_A * data_B) + data_Result;
     end
@@ -278,6 +287,12 @@ initial begin
     m00_axis_tvalid <= 1'b0;
     m00_axis_tlast <= 1'b0;
     s00_axis_tready <= 1'b0;
+    en_A = 1'b0;
+    rw_A = 1'b0;
+    en_B = 1'b0;
+    rw_B = 1'b0;
+    en_R = 1'b0;
+    rw_R = 1'b0;
     /*
     for (i = 0; i < SIZE_LOG-1; i = i + 1) begin
       addr_A[i] <= 1'b0;
@@ -321,44 +336,56 @@ always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
                         data_read = 0;
                     end
                     */
-                    en_A = 1'b1;
-                    rw_A = 1'b1;
-                    
-                    if (counter > SIZE) begin
-                        State = S_LOAD_B;
-                        en_A = 1'b0;
-                        rw_A = 1'b0;
-                        counter = 0;
-                        addr_A = 0;
+                    if (en_A == 1'b0) begin
+                        en_A = 1'b1;
+                        rw_A = 1'b1;
+                        //counter = counter + 1;
                     end else begin
-                        addr_A = addr_A + 1;
-                        counter = counter + 1;
-                        if (counter >= SIZE) begin
+                    
+                    
+                        if (counter == SIZE-1) begin
                             State = S_LOAD_B;
                             en_A = 1'b0;
                             rw_A = 1'b0;
                             counter = 0;
-                            addr_A = 0;
+                            //addr_A = 0;
+                            en_B = 1'b1;
+                            rw_B = 1'b1;
+                        end else begin
+                            addr_A = addr_A + 1;
+                            counter = counter + 1;
+                            /*
+                            if (counter >= SIZE) begin
+                                State = S_LOAD_B;
+                                en_A = 1'b0;
+                                rw_A = 1'b0;
+                                counter = 0;
+                                addr_A = 0;
+                            end
+                            */
                         end
-                    end
+                    end 
                 end
             S_LOAD_B : begin
-                    en_B = 1'b1;
-                    rw_B = 1'b1;
-                    
-                    if (counter == SIZE - 1) begin
+                    if (counter == SIZE - 2) begin
                        //tlast goes here 
                     end
-                    if (counter > SIZE) begin
+                    if (counter == SIZE-1) begin
                         State = S_CALCULATE;
-                        en_B = 1'b0;
+                        en_A = 1'b1;
+                        rw_A = 1'b0;
+                        en_B = 1'b1;
                         rw_B = 1'b0;
+                        en_R = 1'b1;
+                        rw_R = 1'b1;
                         counter = 0;
+                        addr_A = 0;
                         addr_B = 0;
                         s00_axis_tready = 1'b0; //stop the stream
                     end else begin
                         addr_B = addr_B + 1;
                         counter = counter + 1;
+                        /*
                         if (counter >= SIZE) begin
                             State = S_CALCULATE;
                             en_B = 1'b0;
@@ -367,6 +394,7 @@ always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
                             addr_B = 0;
                             s00_axis_tready = 1'b0; //stop the stream
                         end
+                        */
                     end
                 end
             S_CALCULATE : begin
@@ -381,7 +409,7 @@ always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
                     //send addresses to A and B. MAC should trigger combinationally to do R = AB+R
                     //  this will use the for loop from the lab paper to generate addresses
                     //set state to S_OUTPUT once this is done
-                    
+                    /*
                     for (row = 0; row < DIM; row = row + 1) begin
                         for(col = 0; col < DIM; col = col + 1) begin
                             //clear = 1'b1;
@@ -398,6 +426,26 @@ always @ (posedge s00_axi_aclk, negedge s00_axi_aresetn) begin
                         end
                     end
                     counter = 0;
+                    */
+                    if (row < DIM) begin
+                        if (col < DIM) begin
+                            if (counter < DIM) begin
+                                addr_A = (row * DIM) + counter;
+                                addr_B = (counter * DIM) + col;
+                                addr_R = (row * DIM) + col;
+                                counter = counter + 1;
+                            end else begin
+                                counter = 0;
+                                col = col + 1;
+                            end
+                        end else begin
+                            col = 0;
+                            row = row + 1;
+                        end
+                    end else begin
+                        State = S_OUTPUT;
+                        counter = 0;
+                    end
                 end
             S_OUTPUT : begin
                     en_A = 1'b0;

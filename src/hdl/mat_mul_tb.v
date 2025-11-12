@@ -176,3 +176,34 @@ module mat_mul_tb #
     end
     
 endmodule
+
+//rand bit [3:0] addr; (randc is the same but without repititions)
+//assert (A == C); 
+//  $display("some error"); is the syntax for assertions
+//  can use else with assert (must be tabbed to same is display
+class tb;
+    rand bit [31:0] matr_val;   //use .randomize() to set this to a new value
+    
+    function new();
+    
+    endfunction
+    
+    function matr_init();
+    
+    endfunction
+    
+    function mult_matr();
+    
+    endfunction
+    
+    function send_and_rec_matr();
+    
+    endfunction
+    
+    function comp_matr();
+    
+    endfunction
+    
+    
+    
+endclass
