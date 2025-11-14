@@ -208,13 +208,12 @@ module MAC #
     input wire clear, //not used I think
     input wire [DATA_WIDTH-1 : 0] data_A,
     input wire [DATA_WIDTH-1 : 0] data_B,
-    output wire [DATA_WIDTH-1 : 0] data_R
+    output reg [DATA_WIDTH-1 : 0] data_R
 );
 
-reg [DATA_WIDTH-1 : 0] data_Result;
+
 initial begin
-    assign data_R = data_Result;
-    data_Result = 0;
+    //data_R = 0;
 end
 
 
@@ -228,11 +227,12 @@ end
 //always @ (s00_axi_aclk, s00_axi_aresetn, data_A, data_B) begin
 always @ (s00_axi_aresetn, data_A, data_B, clear) begin
     if (s00_axi_aresetn == 1'b0 || clear == 1'b1) begin
-        data_Result = 0;
+        data_R = 0;
     end else begin
-        data_Result <= (data_A * data_B) + data_Result;
+        data_R = (data_A * data_B) + data_R;
     end
 end
+
 endmodule
 
 module AGU #
